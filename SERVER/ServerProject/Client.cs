@@ -48,6 +48,30 @@ namespace ServerProject
 
                 //TODO: send welcome packet
             }
+
+            private void ReceiveCallback(IAsyncResult _result)
+            {
+                try
+                {
+                    int _byteLength = stream.EndRead(_result);
+                    if(_byteLength <= 0)
+                    {
+                        //TODO disconnect the client
+                        return;
+                    }
+
+                    byte[] _data = new byte[_byteLength];
+                    Array.Copy(receiveBuffer, _data, _byteLength);
+
+                    //TODO handle data
+                    stream.BeginRead(receiveBuffer, 0, dataBufferSize, ReceiveCallback, null);
+                }
+                catch(Exception _ex)
+                {
+                    Console.WriteLine($"Error receiving TCP data: {_ex}");
+                    //TODO disconnect the client
+                }
+            }
         }
     }
 }
