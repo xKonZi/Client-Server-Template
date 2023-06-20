@@ -4,7 +4,16 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            Console.Title = "Client";
+
+            Console.ReadKey();
+            if (Client.instance == null)
+            {
+                Client.instance = new Client();
+                Client.instance.Start();
+            }
+            Client.instance.ConnectToServer();
+            Console.ReadKey();
         }
     }
 }
